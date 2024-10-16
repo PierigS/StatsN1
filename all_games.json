@@ -1,0 +1,369 @@
+{
+    "Game_1": {
+        "teams": {
+            "home": "Nancy",
+            "away": "FBBP"
+        },
+        "main_stats": {
+            "possession": {
+                "home": "57%",
+                "away": "43%"
+            },
+            "xG": {
+                "home": "0.97",
+                "away": "0.45"
+            },
+            "shots": {
+                "home": "9",
+                "away": "10"
+            },
+            "gk_save": {
+                "home": "2",
+                "away": "3"
+            },
+            "corner": {
+                "home": "8",
+                "away": "2"
+            },
+            "fouls": {
+                "home": "6",
+                "away": "9"
+            },
+            "passes": {
+                "home": "419",
+                "away": "376"
+            },
+            "tackles": {
+                "home": "4",
+                "away": "2"
+            },
+            "free_kick": {
+                "home": "0",
+                "away": "2"
+            },
+            "yellow_card": {
+                "home": "2",
+                "away": "1"
+            },
+            "red_card": {
+                "home": "0",
+                "away": "0"
+            }
+        }
+    },
+    "Game_2": {
+        "teams": {
+            "home": "Nîmes",
+            "away": "Sochaux"
+        },
+        "main_stats": {
+            "possession": {
+                "home": "47%",
+                "away": "53%"
+            },
+            "xG": {
+                "home": "1.01",
+                "away": "1.74"
+            },
+            "shots": {
+                "home": "12",
+                "away": "7"
+            },
+            "gk_save": {
+                "home": "3",
+                "away": "2"
+            },
+            "corner": {
+                "home": "6",
+                "away": "5"
+            },
+            "fouls": {
+                "home": "16",
+                "away": "15"
+            },
+            "passes": {
+                "home": "313",
+                "away": "385"
+            },
+            "tackles": {
+                "home": "0",
+                "away": "2"
+            },
+            "free_kick": {
+                "home": "1",
+                "away": "5"
+            },
+            "yellow_card": {
+                "home": "4",
+                "away": "3"
+            },
+            "red_card": {
+                "home": "1",
+                "away": "0"
+            }
+        }
+    },
+    "Game_3": {
+        "teams": {
+            "home": "Paris 13",
+            "away": "QRM"
+        },
+        "main_stats": {
+            "possession": {
+                "home": "52%",
+                "away": "48%"
+            },
+            "xG": {
+                "home": "0.27",
+                "away": "1.77"
+            },
+            "shots": {
+                "home": "4",
+                "away": "11"
+            },
+            "gk_save": {
+                "home": "5",
+                "away": "2"
+            },
+            "corner": {
+                "home": "8",
+                "away": "6"
+            },
+            "fouls": {
+                "home": "11",
+                "away": "14"
+            },
+            "passes": {
+                "home": "405",
+                "away": "380"
+            },
+            "tackles": {
+                "home": "1",
+                "away": "1"
+            },
+            "free_kick": {
+                "home": "3",
+                "away": "1"
+            },
+            "yellow_card": {
+                "home": "3",
+                "away": "2"
+            },
+            "red_card": {
+                "home": "0",
+                "away": "0"
+            }
+        }
+    },
+    "Game_4": {
+        "teams": {
+            "home": "Concarneau",
+            "away": "Châteauroux"
+        },
+        "main_stats": {
+            "possession": {
+                "home": "57%",
+                "away": "43%"
+            },
+            "xG": {
+                "home": "0.94",
+                "away": "1.45"
+            },
+            "shots": {
+                "home": "9",
+                "away": "7"
+            },
+            "gk_save": {
+                "home": "3",
+                "away": "1"
+            },
+            "corner": {
+                "home": "2",
+                "away": "6"
+            },
+            "fouls": {
+                "home": "12",
+                "away": "10"
+            },
+            "passes": {
+                "home": "565",
+                "away": "412"
+            },
+            "tackles": {
+                "home": "3",
+                "away": "1"
+            },
+            "free_kick": {
+                "home": "3",
+                "away": "0"
+            },
+            "yellow_card": {
+                "home": "1",
+                "away": "3"
+            },
+            "red_card": {
+                "home": "0",
+                "away": "0"
+            }
+        }
+    },
+    "Game_5": {
+        "teams": {
+            "home": "Orléans",
+            "away": "Dijon"
+        },
+        "main_stats": {
+            "possession": {
+                "home": "54%",
+                "away": "46%"
+            },
+            "xG": {
+                "home": "1.42",
+                "away": "0.86"
+            },
+            "shots": {
+                "home": "13",
+                "away": "10"
+            },
+            "gk_save": {
+                "home": "1",
+                "away": "0"
+            },
+            "corner": {
+                "home": "11",
+                "away": "5"
+            },
+            "fouls": {
+                "home": "12",
+                "away": "11"
+            },
+            "passes": {
+                "home": "503",
+                "away": "440"
+            },
+            "tackles": {
+                "home": "7",
+                "away": "6"
+            },
+            "free_kick": {
+                "home": "0",
+                "away": "2"
+            },
+            "yellow_card": {
+                "home": "3",
+                "away": "2"
+            },
+            "red_card": {
+                "home": "0",
+                "away": "0"
+            }
+        }
+    },
+    "Game_6": {
+        "teams": {
+            "home": "Valenciennes",
+            "away": "Villefranche"
+        },
+        "main_stats": {
+            "possession": {
+                "home": "53%",
+                "away": "47%"
+            },
+            "xG": {
+                "home": "2.09",
+                "away": "1.34"
+            },
+            "shots": {
+                "home": "8",
+                "away": "11"
+            },
+            "gk_save": {
+                "home": "1",
+                "away": "4"
+            },
+            "corner": {
+                "home": "2",
+                "away": "7"
+            },
+            "fouls": {
+                "home": "16",
+                "away": "9"
+            },
+            "passes": {
+                "home": "448",
+                "away": "335"
+            },
+            "tackles": {
+                "home": "4",
+                "away": "0"
+            },
+            "free_kick": {
+                "home": "1",
+                "away": "4"
+            },
+            "yellow_card": {
+                "home": "2",
+                "away": "1"
+            },
+            "red_card": {
+                "home": "0",
+                "away": "0"
+            }
+        }
+    },
+    "Game_7": {
+        "teams": {
+            "home": "Rouen",
+            "away": "Versailles"
+        },
+        "main_stats": {
+            "possession": {
+                "home": "58%",
+                "away": "42%"
+            },
+            "xG": {
+                "home": "1.35",
+                "away": "0.51"
+            },
+            "shots": {
+                "home": "14",
+                "away": "10"
+            },
+            "gk_save": {
+                "home": "5",
+                "away": "5"
+            },
+            "corner": {
+                "home": "6",
+                "away": "2"
+            },
+            "fouls": {
+                "home": "11",
+                "away": "16"
+            },
+            "passes": {
+                "home": "523",
+                "away": "307"
+            },
+            "tackles": {
+                "home": "1",
+                "away": "3"
+            },
+            "free_kick": {
+                "home": "4",
+                "away": "1"
+            },
+            "yellow_card": {
+                "home": "4",
+                "away": "4"
+            },
+            "red_card": {
+                "home": "0",
+                "away": "0"
+            }
+        }
+    },
+    "missing": [
+        "Aubagne FC - US Boulogne Côte-d'Opale - Day 8"
+    ]
+}
