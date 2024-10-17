@@ -63,6 +63,7 @@ def get_game_ids():
 
 def get_game(game, game_id):
     teams_infos = call_api(f"{api_links['game']}{game_id}")
+    game['round'] = teams_infos['event']['roundInfo']['round']
     game['home_team'] = {
         'name': teams_infos['event']['homeTeam']['name'],
         'namecode': teams_infos['event']['homeTeam']['nameCode'],
