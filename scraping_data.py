@@ -97,44 +97,44 @@ def get_teams_stats(game, game_id):
 
     for stat in teams_stats['statistics'][0]['groups'][0]['statisticsItems']:
         game['statistics']['overview'][stat['key']] = {
-            'home': stat['home'],
-            'away': stat['away'],
+            'home': stat['homeValue'],
+            'away': stat['awayValue'],
             'type': stat['statisticsType'],
         }
     for stat in teams_stats['statistics'][0]['groups'][1]['statisticsItems']:
         game['statistics']['shots'][stat['key']] = {
-            'home': stat['home'],
-            'away': stat['away'],
+            'home': stat['homeValue'],
+            'away': stat['awayValue'],
             'type': stat['statisticsType'],
         }
     for stat in teams_stats['statistics'][0]['groups'][2]['statisticsItems']:
         game['statistics']['attack'][stat['key']] = {
-            'home': stat['home'],
-            'away': stat['away'],
+            'home': stat['homeValue'],
+            'away': stat['awayValue'],
             'type': stat['statisticsType'],
         }
     for stat in teams_stats['statistics'][0]['groups'][3]['statisticsItems']:
         game['statistics']['passes'][stat['key']] = {
-            'home': stat['home'],
-            'away': stat['away'],
+            'home': stat['homeValue'],
+            'away': stat['awayValue'],
             'type': stat['statisticsType'],
         }
     for stat in teams_stats['statistics'][0]['groups'][4]['statisticsItems']:
         game['statistics']['duels'][stat['key']] = {
-            'home': stat['home'],
-            'away': stat['away'],
+            'home': stat['homeValue'],
+            'away': stat['awayValue'],
             'type': stat['statisticsType'],
         }
     for stat in teams_stats['statistics'][0]['groups'][5]['statisticsItems']:
         game['statistics']['defense'][stat['key']] = {
-            'home': stat['home'],
-            'away': stat['away'],
+            'home': stat['homeValue'],
+            'away': stat['awayValue'],
             'type': stat['statisticsType'],
         }
     for stat in teams_stats['statistics'][0]['groups'][6]['statisticsItems']:
         game['statistics']['goalkeepers'][stat['key']] = {
-            'home': stat['home'],
-            'away': stat['away'],
+            'home': stat['homeValue'],
+            'away': stat['awayValue'],
             'type': stat['statisticsType'],
         }
     return game
