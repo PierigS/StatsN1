@@ -72,6 +72,9 @@ def get_game(game, game_id):
         'name': teams_infos['event']['awayTeam']['name'],
         'namecode': teams_infos['event']['awayTeam']['nameCode'],
     }
+    if teams_infos['event']['status']['code'] == 60:
+        game['score'] = 'postponed'
+        return game
     game['score'] = {
         'home': teams_infos['event']['homeScore']['current'],
         'away': teams_infos['event']['awayScore']['current'],
@@ -80,6 +83,8 @@ def get_game(game, game_id):
 
 def get_teams_stats(game, game_id):
     teams_stats = call_api(f"{api_links['game']}{game_id}{api_links['teams_stats']}")
+    if 'error' in teams_stats:
+        return game
 
     game['statistics'] = {}
     game['statistics']['overview'] = {}
@@ -136,17 +141,19 @@ def get_teams_stats(game, game_id):
 
 def get_players_stats(game, game_id):
     players_stats = call_api(f"{api_links['game']}{game_id}{api_links['players_stats']}")
-
+    if 'error' in players_stats:
+        return game
+    
     game['players_stats'] = {}
     game['players_stats']['home'] = {}
     game['players_stats']['away'] = {}
     for player in players_stats['home']['players']:
-        if 'statistics' in player:
+        if 'statistics' in player and 'position' in player:
             game['players_stats']['home'][player['player']['slug']] = {}
             game['players_stats']['home'][player['player']['slug']]['position'] = player['position']
             game['players_stats']['home'][player['player']['slug']]['statistics'] = player['statistics']
     for player in players_stats['away']['players']:
-        if 'statistics' in player:
+        if 'statistics' in player and 'position' in player:
             game['players_stats']['away'][player['player']['slug']] = {}
             game['players_stats']['away'][player['player']['slug']]['position'] = player['position']
             game['players_stats']['away'][player['player']['slug']]['statistics'] = player['statistics']
@@ -172,6 +179,8 @@ def get_game_events(game, game_id):
                 'type': event['incidentType'],
                 'time': event['time'],
             })
+        elif event['incidentType'] == 'injuryTime':
+            pass
         else:
             game['events'].append({
                 'type': event['incidentType'],
@@ -192,16 +201,25 @@ def get_game_events(game, game_id):
 
 def get_domination(game, game_id):
     domination = call_api(f"{api_links['game']}{game_id}{api_links['domination']}")
+    if 'error' in domination:
+        return game
+    
     game['domination'] = domination['graphPoints']
     return game
 
 def get_shotmap(game, game_id):
     shotmap = call_api(f"{api_links['game']}{game_id}{api_links['shotmap']}")
+    if 'error' in shotmap:
+        return game
+    
     game['shotmap'] = shotmap['shotmap']
     return game
 
 def get_average_pos(game, game_id):
     average_pos = call_api(f"{api_links['game']}{game_id}{api_links['average_pos']}")
+    if 'error' in average_pos:
+        return game
+    
     game['average_positions'] = {}
     game['average_positions']['home'] = average_pos['home']
     game['average_positions']['away'] = average_pos['away']
@@ -218,18 +236,24 @@ api_links = {
 }
 
 game_ids = get_game_ids()
-game_id = game_ids[0] 
-game = {}
-game = get_game(game, game_id)
-game = get_teams_stats(game, game_id)
-game = get_players_stats(game, game_id)
-game = get_game_events(game, game_id)
-game = get_domination(game, game_id)
-game = get_shotmap(game, game_id)
-game = get_average_pos(game, game_id)
 
+all_games = []
+for game_id in game_ids: 
+    game = {}
+    game = get_game(game, game_id)
+    game = get_teams_stats(game, game_id)
+    game = get_players_stats(game, game_id)
+    game = get_game_events(game, game_id)
+    game = get_domination(game, game_id)
+    game = get_shotmap(game, game_id)
+    game = get_average_pos(game, game_id)
+    all_games.append(game)
+
+all_season = {
+    'games': all_games
+}
     
-write_json('./game.json', game)
+write_json('./all_season.json', all_season)
 
 print('Done !')
 
