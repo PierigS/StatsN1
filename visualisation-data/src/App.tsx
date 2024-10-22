@@ -60,11 +60,29 @@ function App() {
     setAllMeans(overallMeans);
   };
 
+  
+
   if (!data || !allMeans) {
     return <p>Chargement des données...</p>;
   }
 
   const availableStatGroups = Object.keys(data[selectedClub].means);
+
+  const calculateRankForStat = (stat: string, statGroup: string): number => {
+    if (!data) return 0;
+  
+    // Extract all clubs and their means for this statistic
+    const clubsAndStats = Object.keys(data).map((club) => ({
+      club,
+      mean: data[club].means[statGroup]?.[stat]?.mean || 0, // Use optional chaining to prevent errors
+    }));
+  
+    // Sort the clubs by the mean of the statistic (from highest to lowest)
+    clubsAndStats.sort((a, b) => b.mean - a.mean);
+  
+    // Find the position of the selected club in this ranking
+    return clubsAndStats.findIndex((clubData) => clubData.club === selectedClub) + 1; // Add 1 to convert index to rank
+  };
 
   const renderChartForStatGroup = (statGroup: string) => {
     const clubMeans = data[selectedClub].means[statGroup];
@@ -73,10 +91,15 @@ function App() {
       const clubMean = clubMeans[stat].mean;
       const overallMean = parseFloat(allMeans[statGroup][stat]);
       const difference = ((clubMean - overallMean) / overallMean * 100).toFixed(2);
+      const clubStatRank = calculateRankForStat(stat, statGroup);
+      const label = `${clubMean}-${clubStatRank}${clubStatRank===1 ? 'er' : 'ème'}`;
       return {
         statName: stat,
         difference: parseFloat(difference),
         clubMean: clubMean.toFixed(2),
+        label: label,
+        rank: clubStatRank, 
+
         color: clubMean < overallMean ? 'rgba(255, 99, 132, 0.6)' : 'rgba(75, 192, 192, 0.6)',
       };
     });
@@ -105,7 +128,10 @@ function App() {
             />
             <Tooltip />
             <Bar dataKey="difference" barSize={20}>
-              <LabelList dataKey="clubMean" position="right" formatter={(value: number) => `${value}`} />
+              <LabelList 
+                dataKey="label" 
+                position="right"
+              />
               {chartData.map((entry, index) => (
                 <Cell key={`cell-${index}`} fill={entry.color} />
               ))}
