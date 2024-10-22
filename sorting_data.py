@@ -43,7 +43,6 @@ for game in data['games']:
                         clubs[team_name]['means'][stats_group][stat] = {
                             'total': 0, 
                             'count': 0,
-                            'type': game['statistics'][stats_group][stat]['type']
                         }
 
                     clubs[team_name]['means'][stats_group][stat]['total'] += value

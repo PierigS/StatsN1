@@ -1,0 +1,168 @@
+{
+    "overview": {
+        "ballPossession": {
+            "type": "positive",
+            "fr": "Possession (%)"
+        },
+        "expectedGoals": {
+            "type": "positive",
+            "fr": "xG"
+        },
+        "totalShotsOnGoal": {
+            "type": "positive",
+            "fr": "Tirs"
+        },
+        "goalkeeperSaves": {
+            "type": "positive",
+            "fr": "Arrêts du gardien"
+        },
+        "cornerKicks": {
+            "type": "positive",
+            "fr": "Corners"
+        },
+        "fouls": {
+            "type": "negative",
+            "fr": "Fautes"
+        },
+        "passes": {
+            "type": "positive",
+            "fr": "Passes"
+        },
+        "totalTackle": {
+            "type": "positive",
+            "fr": "Tacles"
+        },
+        "freeKicks": {
+            "type": "positive",
+            "fr": "Coups francs"
+        },
+        "yellowCards": {
+            "type": "negative",
+            "fr": "Cartons jaunes"
+        },
+        "redCards": {
+            "type": "negative",
+            "fr": "Cartons rouges"
+        }
+    },
+    "shots": {
+        "totalShotsOnGoal": {
+            "type": "positive",
+            "fr": "Tirs"
+        },
+        "shotsOnGoal": {
+            "type": "positive",
+            "fr": "Tirs cadrés"
+        },
+        "hitWoodwork": {
+            "type": "positive",
+            "fr": "Montants touchés"
+        },
+        "shotsOffGoal": {
+            "type": "negative",
+            "fr": "Tirs non cadrés"
+        },
+        "blockedScoringAttempt": {
+            "type": "negative",
+            "fr": "Tirs bloqués"
+        },
+        "totalShotsInsideBox": {
+            "type": "positive",
+            "fr": "Tirs depuis la surface"
+        },
+        "totalShotsOutsideBox": {
+            "type": "positive",
+            "fr": "Tirs en-dehors de la surface"
+        }
+    },
+    "attack": {
+        "accurateThroughBall": {
+            "type": "positive",
+            "fr": "Passes en profondeur"
+        },
+        "touchesInOppBox": {
+            "type": "positive",
+            "fr": "Ballons touchés dans la surface"
+        },
+        "offsides": {
+            "type": "negative",
+            "fr": "Hors-jeu"
+        }
+    },
+    "passes": {
+        "accuratePasses": {
+            "type": "positive",
+            "fr": "Passes précises"
+        },
+        "throwIns": {
+            "type": "positive",
+            "fr": "Touches"
+        },
+        "finalThirdPhaseStatistic": {
+            "type": "positive",
+            "fr": "Passes dans le dernier tiers"
+        },
+        "accurateLongBalls": {
+            "type": "positive",
+            "fr": "Passes longues"
+        },
+        "accurateCross": {
+            "type": "positive",
+            "fr": "Transversales"
+        }
+    },
+    "duels": {
+        "duelWonPercent": {
+            "type": "positive",
+            "fr": "Duels gagnés"
+        },
+        "dispossessed": {
+            "type": "negative",
+            "fr": "Pertes de balle"
+        },
+        "groundDuelsPercentage": {
+            "type": "positive",
+            "fr": "Duels au sol"
+        },
+        "aerialDuelsPercentage": {
+            "type": "positive",
+            "fr": "Duels aériens"
+        },
+        "dribblesPercentage": {
+            "type": "positive",
+            "fr": "Dribbles"
+        }
+    },
+    "defense": {
+        "totalTackle": {
+            "type": "positive",
+            "fr": "Tacles"
+        },
+        "interceptionWon": {
+            "type": "positive",
+            "fr": "Interceptions"
+        },
+        "totalClearance": {
+            "type": "positive",
+            "fr": "Dégagements"
+        },
+        "errorsLeadToShot": {
+            "type": "negative",
+            "fr": "Erreurs menant à un tir"
+        }
+    },
+    "goalkeepers": {
+        "goalkeeperSaves": {
+            "type": "positive",
+            "fr": "Arrêts du gardien"
+        },
+        "highClaims": {
+            "type": "positive",
+            "fr": "Sorties aériennes"
+        },
+        "goalKicks": {
+            "type": "positive",
+            "fr": "Six-mètres"
+        }
+    }
+}

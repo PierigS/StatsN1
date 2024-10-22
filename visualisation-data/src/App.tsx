@@ -17,10 +17,17 @@ interface ChartData {
   color: string;
 }
 
+
+interface StatDesc {
+  type: string;
+  fr: string;
+}
+
 function App() {
   const [data, setData] = useState<Record<string, ClubData> | null>(null);
   const [selectedClub, setSelectedClub] = useState<string>('FCSM');
   const [allMeans, setAllMeans] = useState<Record<string, Record<string, string>>>({});
+  const [statDescriptions, setStatDescriptions] = useState<Record<string, Record<string, StatDesc>>>({});
 
   useEffect(() => {
     fetch('/clubs.json')
@@ -30,6 +37,14 @@ function App() {
         calculateOverallMeans(data);
       })
       .catch((error) => console.error('Erreur lors du chargement des données :', error));
+    
+      // Charger le fichier stats_desc.json
+    fetch('/stats_desc.json')
+    .then((response) => response.json())
+    .then((descData: Record<string, Record<string, StatDesc>>) => {
+      setStatDescriptions(descData); 
+    })
+    .catch((error) => console.error('Erreur lors du chargement des descriptions des stats :', error));
   }, []);
 
   const calculateOverallMeans = (data: Record<string, ClubData>) => {
@@ -68,21 +83,25 @@ function App() {
 
   const availableStatGroups = Object.keys(data[selectedClub].means);
 
-  const calculateRankForStat = (stat: string, statGroup: string): number => {
+  const calculateRankForStat = (stat: string, statGroup: string, statType: string): number => {
     if (!data) return 0;
   
     // Extract all clubs and their means for this statistic
     const clubsAndStats = Object.keys(data).map((club) => ({
       club,
-      mean: data[club].means[statGroup]?.[stat]?.mean || 0, // Use optional chaining to prevent errors
+      mean: data[club].means[statGroup]?.[stat]?.mean || 0, // Utiliser la chaîne optionnelle pour éviter les erreurs
     }));
   
-    // Sort the clubs by the mean of the statistic (from highest to lowest)
-    clubsAndStats.sort((a, b) => b.mean - a.mean);
+    // Trier les clubs en fonction de la moyenne de la statistique
+    // Si le type de stat est "negative", on inverse l'ordre du tri
+    clubsAndStats.sort((a, b) => {
+      return statType === 'negative' ? a.mean - b.mean : b.mean - a.mean;
+    });
   
-    // Find the position of the selected club in this ranking
-    return clubsAndStats.findIndex((clubData) => clubData.club === selectedClub) + 1; // Add 1 to convert index to rank
+    // Trouver la position du club sélectionné dans ce classement
+    return clubsAndStats.findIndex((clubData) => clubData.club === selectedClub) + 1; // Ajouter 1 pour convertir l'index en rang
   };
+  
 
   const renderChartForStatGroup = (statGroup: string) => {
     const clubMeans = data[selectedClub].means[statGroup];
@@ -91,21 +110,36 @@ function App() {
       const clubMean = clubMeans[stat].mean;
       const overallMean = parseFloat(allMeans[statGroup][stat]);
       const difference = ((clubMean - overallMean) / overallMean * 100).toFixed(2);
-      const clubStatRank = calculateRankForStat(stat, statGroup);
+      
+      // Utilise le nom français de la stat à partir de stats_desc.json
+      const statName = statDescriptions[statGroup]?.[stat]?.fr || stat;
+      const statType = statDescriptions[statGroup]?.[stat]?.type;
+
+      // Inverse la couleur si le type est "negative"
+      const color = statType === 'negative'
+        ? clubMean > overallMean
+          ? 'rgba(220, 18, 18, 0.8)' // Si la stat est "negative" mais le clubMean est supérieur à la moyenne
+          : 'rgba(106, 255, 106, 0.8)' // Si la stat est "negative" et le clubMean est inférieur à la moyenne
+        : clubMean < overallMean
+          ? 'rgba(220, 18, 18, 0.8)' // Si la stat est "positive" mais le clubMean est inférieur à la moyenne
+          : 'rgba(106, 255, 106, 0.8)'; // Si la stat est "positive" et le clubMean est supérieur à la moyenne
+        
+      const clubStatRank = calculateRankForStat(stat, statGroup, statType);
       const label = `${clubMean}-${clubStatRank}${clubStatRank===1 ? 'er' : 'ème'}`;
+
       return {
-        statName: stat,
+        statName: statName,
         difference: parseFloat(difference),
         clubMean: clubMean.toFixed(2),
         label: label,
         rank: clubStatRank, 
 
-        color: clubMean < overallMean ? 'rgba(255, 99, 132, 0.6)' : 'rgba(75, 192, 192, 0.6)',
+        color: color
       };
     });
 
-    const barSize = 20;
-    const gapSize = 20;
+    const barSize = 25;
+    const gapSize = 25;
     const chartHeight = chartData.length * (barSize + gapSize);
 
     return (
@@ -122,9 +156,10 @@ function App() {
             <YAxis
               type="category"
               dataKey="statName"
-              width={150}
+              width={200}
               tickLine={{ stroke: '#000' }}
               ticks={chartData.map((entry) => entry.statName)}
+              tick={{ overflow: 'visible' }}
             />
             <Tooltip />
             <Bar dataKey="difference" barSize={20}>
@@ -144,7 +179,7 @@ function App() {
 
   return (
     <div
-      className="p-4"
+      className="p-4 bg-gray-100"
     >
       <label htmlFor="club-selector" className="font-bold">Sélectionne un club :</label>
       <select

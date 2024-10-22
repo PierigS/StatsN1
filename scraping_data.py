@@ -253,7 +253,7 @@ all_season = {
     'games': all_games
 }
     
-write_json('./all_season.json', all_season)
+write_json('./visualisation-data/public/all_season.json', all_season)
 
 print('Done !')
 
