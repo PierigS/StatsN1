@@ -1,23 +1,39 @@
 import React, { useState, useEffect } from 'react';
 import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, LabelList, Cell } from 'recharts';
 
+// Définir les types pour les données
+interface Stat {
+  mean: number;
+}
+
+interface ClubData {
+  means: Record<string, Record<string, Stat>>;
+}
+
+interface ChartData {
+  statName: string;
+  difference: number;
+  clubMean: string;
+  color: string;
+}
+
 function App() {
-  const [data, setData] = useState(null);
-  const [selectedClub, setSelectedClub] = useState('FCSM');
-  const [allMeans, setAllMeans] = useState({});
+  const [data, setData] = useState<Record<string, ClubData> | null>(null);
+  const [selectedClub, setSelectedClub] = useState<string>('FCSM');
+  const [allMeans, setAllMeans] = useState<Record<string, Record<string, string>>>({});
 
   useEffect(() => {
     fetch('/clubs.json')
       .then((response) => response.json())
-      .then((data) => {
+      .then((data: Record<string, ClubData>) => {
         setData(data);
         calculateOverallMeans(data);
       })
       .catch((error) => console.error('Erreur lors du chargement des données :', error));
   }, []);
 
-  const calculateOverallMeans = (data) => {
-    const statGroups = {};
+  const calculateOverallMeans = (data: Record<string, ClubData>) => {
+    const statGroups: Record<string, Record<string, number>> = {};
     let clubCount = 0;
 
     Object.keys(data).forEach((club) => {
@@ -33,7 +49,7 @@ function App() {
       clubCount++;
     });
 
-    const overallMeans = {};
+    const overallMeans: Record<string, Record<string, string>> = {};
     Object.keys(statGroups).forEach((group) => {
       overallMeans[group] = {};
       Object.keys(statGroups[group]).forEach((stat) => {
@@ -50,10 +66,10 @@ function App() {
 
   const availableStatGroups = Object.keys(data[selectedClub].means);
 
-  const renderChartForStatGroup = (statGroup) => {
+  const renderChartForStatGroup = (statGroup: string) => {
     const clubMeans = data[selectedClub].means[statGroup];
 
-    const chartData = Object.keys(clubMeans).map((stat) => {
+    const chartData: ChartData[] = Object.keys(clubMeans).map((stat) => {
       const clubMean = clubMeans[stat].mean;
       const overallMean = parseFloat(allMeans[statGroup][stat]);
       const difference = ((clubMean - overallMean) / overallMean * 100).toFixed(2);
@@ -65,26 +81,31 @@ function App() {
       };
     });
 
-    const barSize = 20; // Largeur des barres
-    const gapSize = 20; // Espace entre les barres
-    const chartHeight = chartData.length * (barSize + gapSize); // Calcul dynamique de la hauteur du graphique
+    const barSize = 20;
+    const gapSize = 20;
+    const chartHeight = chartData.length * (barSize + gapSize);
 
     return (
-      <div key={statGroup} style={{ marginBottom: '50px' }}>
-        <h2>{statGroup}</h2>
-        <ResponsiveContainer width="100%" height={chartHeight}>
-
-          <BarChart 
-            data={chartData} 
-            layout="vertical" 
+      <div key={statGroup} >
+        <h2 className='font-bold text-xl'>{statGroup}</h2>
+        <ResponsiveContainer width="50%" height={chartHeight}>
+          <BarChart
+            data={chartData}
+            layout="vertical"
             margin={{ top: 5, right: 50, left: 50, bottom: 5 }}
-          > {/* Ajustement des marges */}
+          >
             <CartesianGrid strokeDasharray="3 3" />
             <XAxis type="number" domain={[-200, 200]} axisLine={{ stroke: '#000' }} />
-            <YAxis type="category" dataKey="statName" width={150} tickLine={{ stroke: '#000' }} ticks={chartData.map(entry => entry.statName)} />
+            <YAxis
+              type="category"
+              dataKey="statName"
+              width={150}
+              tickLine={{ stroke: '#000' }}
+              ticks={chartData.map((entry) => entry.statName)}
+            />
             <Tooltip />
             <Bar dataKey="difference" barSize={20}>
-              <LabelList dataKey="clubMean" position="right" formatter={(value) => `${value}`} />
+              <LabelList dataKey="clubMean" position="right" formatter={(value: number) => `${value}`} />
               {chartData.map((entry, index) => (
                 <Cell key={`cell-${index}`} fill={entry.color} />
               ))}
@@ -96,8 +117,10 @@ function App() {
   };
 
   return (
-    <div className="App" style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center' }}>
-      <label htmlFor="club-selector">Sélectionne un club :</label>
+    <div
+      className="p-4"
+    >
+      <label htmlFor="club-selector" className="font-bold">Sélectionne un club :</label>
       <select
         id="club-selector"
         value={selectedClub}
@@ -108,16 +131,16 @@ function App() {
             {club}
           </option>
         ))}
-
       </select>
 
-      <h1>Différences des statistiques de {selectedClub} par rapport à la moyenne générale</h1>
-      <h5>Les valeurs sont exprimées en pourcentage de différence par rapport à la moyenne des clubs</h5>
-
-      {/* Affichage de tous les graphiques pour chaque groupe de statistiques */}
-      {availableStatGroups.map((statGroup) => renderChartForStatGroup(statGroup))}
+      <h1 className='font-bold text-2xl'>Différences des statistiques de {selectedClub} par rapport à la moyenne générale.</h1>
+      <h5 className='font-bold text-l'>Les valeurs sont exprimées en pourcentage de différence par rapport à la moyenne des clubs.</h5>
+      <div>
+        {availableStatGroups.map((statGroup) => renderChartForStatGroup(statGroup))}
+      </div>
     </div>
   );
 }
 
 export default App;
+
