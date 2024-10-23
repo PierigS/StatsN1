@@ -1,5 +1,25 @@
+'use client';
+
 import React, { useState, useEffect } from 'react';
-import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, LabelList, Cell } from 'recharts';
+import { BarChart, Bar, XAxis, YAxis, CartesianGrid, ReferenceLine, LabelList, Cell } from 'recharts';
+import { Select, SelectTrigger, SelectValue, SelectContent, SelectItem } from '@/components/ui/select';
+import { ChartConfig, ChartContainer, ChartTooltip, ChartTooltipContent } from '@/components/ui/chart';
+import { LegendProps } from 'recharts';
+
+// Fonction pour créer une légende personnalisée
+const CustomLegend = (props: LegendProps) => {
+  const { payload } = props;
+
+  return (
+    <ul style={{ fontSize: '20px', fontWeight: 'bold' }}> {/* Taille du texte ajustée ici */}
+      {payload?.map((entry, index) => (
+        <li key={`item-${index}`} style={{ color: entry.color }}>
+          {entry.value}
+        </li>
+      ))}
+    </ul>
+  );
+};
 
 // Définir les types pour les données
 interface Stat {
@@ -23,6 +43,16 @@ interface StatDesc {
   type: string;
   fr: string;
 }
+const chartConfig = {
+    desktop: {
+      label: "Desktop",
+      color: "#2563eb",
+    },
+    mobile: {
+      label: "Mobile",
+      color: "#60a5fa",
+    },
+} satisfies ChartConfig
 
 function Main() {
   const [data, setData] = useState<Record<string, ClubData> | null>(null);
@@ -121,10 +151,10 @@ function Main() {
       const color = statType === 'negative'
         ? clubMean > overallMean
           ? 'rgba(220, 18, 18, 0.8)' // Si la stat est "negative" mais le clubMean est supérieur à la moyenne
-          : 'rgba(106, 255, 106, 0.8)' // Si la stat est "negative" et le clubMean est inférieur à la moyenne
+          : 'rgba(18, 220, 18, 0.8)' // Si la stat est "negative" et le clubMean est inférieur à la moyenne
         : clubMean < overallMean
           ? 'rgba(220, 18, 18, 0.8)' // Si la stat est "positive" mais le clubMean est inférieur à la moyenne
-          : 'rgba(106, 255, 106, 0.8)'; // Si la stat est "positive" et le clubMean est supérieur à la moyenne
+          : 'rgba(18, 220, 18, 0.8)'; // Si la stat est "positive" et le clubMean est supérieur à la moyenne
         
       const clubStatRank = calculateRankForStat(stat, statGroup, statType);
       const label = `${clubMean}-${clubStatRank}${clubStatRank===1 ? 'er' : 'ème'}`;
@@ -140,30 +170,32 @@ function Main() {
       };
     });
 
-    const barSize = 25;
-    const gapSize = 25;
+    const barSize = 40;
+    const gapSize = 1;
     const chartHeight = chartData.length * (barSize + gapSize);
 
     return (
       <div key={statGroup} >
         <h2 className='font-bold text-xl'>{statGroup}</h2>
-        <ResponsiveContainer width="50%" height={chartHeight}>
+        <ChartContainer config={chartConfig} className={`w-[750px]`} style={{ height: `${chartHeight}px`}}>
           <BarChart
             data={chartData}
             layout="vertical"
             margin={{ top: 5, right: 50, left: 50, bottom: 5 }}
           >
-            <CartesianGrid strokeDasharray="3 3" />
+            <CartesianGrid strokeDasharray="3 3"  />
             <XAxis type="number" domain={[-200, 200]} axisLine={{ stroke: '#000' }} />
             <YAxis
               type="category"
               dataKey="statName"
-              width={200}
+              width={250}
               tickLine={{ stroke: '#000' }}
               ticks={chartData.map((entry) => entry.statName)}
               tick={{ overflow: 'visible' }}
+              tickMargin={5}
             />
-            <Tooltip />
+            <ReferenceLine x={0} stroke="lightgray" strokeWidth={1} />
+            <ChartTooltip content={<ChartTooltipContent />} />
             <Bar dataKey="difference" barSize={20}>
               <LabelList 
                 dataKey="label" 
@@ -174,35 +206,38 @@ function Main() {
               ))}
             </Bar>
           </BarChart>
-        </ResponsiveContainer>
+        </ChartContainer>
       </div>
     );
   };
 
   return (
     <div
-      className="p-4 bg-gray-100"
+      className="p-4"
     >
-      <label htmlFor="club-selector" className="font-bold">Sélectionne un club :</label>
-      <select
-        id="club-selector"
-        value={selectedClub}
-        onChange={(e) => {
-            setSelectedClub(e.target.value);
-            setSelectedClubName(data[e.target.value]['name']);
-          }
-        }
-      >
-        {Object.keys(data).map((club) => (
-          <option key={club} value={club}>
-            {club}
-          </option>
-        ))}
-      </select>
+        <div className='flex flex-column'>
+            <label htmlFor="club-selector" className="font-bold w-[200px] p-1">Sélectionne un club :</label>
+            <Select onValueChange={(value:string) => {
+                    setSelectedClub(value);
+                    setSelectedClubName(data[value]['name']);
+                    }}>
+                <SelectTrigger className="w-[100px]">
+                    <SelectValue placeholder={`${selectedClub}`} />
+                </SelectTrigger>
+                <SelectContent>
+                    {Object.keys(data).map((club) => (
+                        <SelectItem key={club} value={club}>
+                            {club}
+                        </SelectItem>
+                    ))}
+                </SelectContent>
+            </Select>
+        </div>
+      
 
-      <h1 className='font-bold text-2xl'>Différences des statistiques de {selectedClubName} par rapport à la moyenne générale.</h1>
-      <h5 className='font-bold text-l'>Les valeurs sont exprimées en pourcentage de différence par rapport à la moyenne des clubs.</h5>
-      <div>
+      <h1 className='font-bold text-2xl text-center'>Différences des statistiques de {selectedClubName} par rapport à la moyenne générale.</h1>
+      <h5 className='font-bold text-l text-center'>Les valeurs sont exprimées en pourcentage de différence par rapport à la moyenne des clubs.</h5>
+      <div className=''>
         {availableStatGroups.map((statGroup) => renderChartForStatGroup(statGroup))}
       </div>
     </div>

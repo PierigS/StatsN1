@@ -1395,7 +1395,8 @@
                     "mean": 7.0
                 }
             }
-        }
+        },
+        "name": "Bourg-en-Bresse"
     },
     "AUB": {
         "games": [
@@ -2822,7 +2823,8 @@
                     "mean": 1.0
                 }
             }
-        }
+        },
+        "name": "Aubagne FC"
     },
     "LBC": {
         "games": [
@@ -4396,7 +4398,8 @@
                     "mean": 7.12
                 }
             }
-        }
+        },
+        "name": "Ch\u00e2teauroux"
     },
     "MAN": {
         "games": [
@@ -5963,7 +5966,8 @@
                     "mean": 6.5
                 }
             }
-        }
+        },
+        "name": "Le Mans"
     },
     "DIJ": {
         "games": [
@@ -7533,7 +7537,8 @@
                     "mean": 6.12
                 }
             }
-        }
+        },
+        "name": "Dijon"
     },
     "NIM": {
         "games": [
@@ -9278,7 +9283,8 @@
                     "mean": 3.77
                 }
             }
-        }
+        },
+        "name": "N\u00eemes Olympique"
     },
     "VER": {
         "games": [
@@ -10852,7 +10858,8 @@
                     "mean": 9.0
                 }
             }
-        }
+        },
+        "name": "FC Versailles 78"
     },
     "CON": {
         "games": [
@@ -12593,7 +12600,8 @@
                     "mean": 2.0
                 }
             }
-        }
+        },
+        "name": "US Concarneau"
     },
     "VIL": {
         "games": [
@@ -14163,7 +14171,8 @@
                     "mean": 1.0
                 }
             }
-        }
+        },
+        "name": "FC Villefranche Beaujolais"
     },
     "ROU": {
         "games": [
@@ -15904,7 +15913,8 @@
                     "mean": 1.0
                 }
             }
-        }
+        },
+        "name": "FC Rouen"
     },
     "QRM": {
         "games": [
@@ -17302,7 +17312,8 @@
                     "mean": 6.85
                 }
             }
-        }
+        },
+        "name": "Quevilly - Rouen M\u00e9tropole"
     },
     "ASN": {
         "games": [
@@ -18871,7 +18882,8 @@
                     "mean": 6.5
                 }
             }
-        }
+        },
+        "name": "Nancy"
     },
     "FCSM": {
         "games": [
@@ -20449,7 +20461,8 @@
                     "mean": 5.12
                 }
             }
-        }
+        },
+        "name": "Sochaux"
     },
     "VAL": {
         "games": [
@@ -22207,7 +22220,8 @@
                     "mean": 4.77
                 }
             }
-        }
+        },
+        "name": "Valenciennes"
     },
     "BOU": {
         "games": [
@@ -23776,7 +23790,8 @@
                     "mean": 7.12
                 }
             }
-        }
+        },
+        "name": "US Boulogne C\u00f4te-d'Opale"
     },
     "USO": {
         "games": [
@@ -25526,7 +25541,8 @@
                     "mean": 1.0
                 }
             }
-        }
+        },
+        "name": "US Orl\u00e9ans"
     },
     "PAR": {
         "games": [
@@ -27083,6 +27099,7 @@
                     "mean": 4.12
                 }
             }
-        }
+        },
+        "name": "Paris 13 Atletico"
     }
 }
