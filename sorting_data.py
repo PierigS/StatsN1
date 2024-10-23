@@ -13,6 +13,7 @@ for game in data['games']:
         team_name = game[f"{team}_team"]['namecode']
         if team_name not in clubs:
             clubs[team_name] = {'games': [], 'means': {}}
+            clubs[team_name]['name'] = game[f"{team}_team"]['name']
 
 for game in data['games']:
     for team in ['home', 'away']:

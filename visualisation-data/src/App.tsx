@@ -8,6 +8,7 @@ interface Stat {
 
 interface ClubData {
   means: Record<string, Record<string, Stat>>;
+  name: string;
 }
 
 interface ChartData {
@@ -23,9 +24,10 @@ interface StatDesc {
   fr: string;
 }
 
-function App() {
+function Main() {
   const [data, setData] = useState<Record<string, ClubData> | null>(null);
   const [selectedClub, setSelectedClub] = useState<string>('FCSM');
+  const [selectedClubName, setSelectedClubName] = useState<string>('Sochaux');
   const [allMeans, setAllMeans] = useState<Record<string, Record<string, string>>>({});
   const [statDescriptions, setStatDescriptions] = useState<Record<string, Record<string, StatDesc>>>({});
 
@@ -185,7 +187,11 @@ function App() {
       <select
         id="club-selector"
         value={selectedClub}
-        onChange={(e) => setSelectedClub(e.target.value)}
+        onChange={(e) => {
+            setSelectedClub(e.target.value);
+            setSelectedClubName(data[e.target.value]['name']);
+          }
+        }
       >
         {Object.keys(data).map((club) => (
           <option key={club} value={club}>
@@ -194,7 +200,7 @@ function App() {
         ))}
       </select>
 
-      <h1 className='font-bold text-2xl'>Différences des statistiques de {selectedClub} par rapport à la moyenne générale.</h1>
+      <h1 className='font-bold text-2xl'>Différences des statistiques de {selectedClubName} par rapport à la moyenne générale.</h1>
       <h5 className='font-bold text-l'>Les valeurs sont exprimées en pourcentage de différence par rapport à la moyenne des clubs.</h5>
       <div>
         {availableStatGroups.map((statGroup) => renderChartForStatGroup(statGroup))}
@@ -203,5 +209,5 @@ function App() {
   );
 }
 
-export default App;
+export default Main;
 
