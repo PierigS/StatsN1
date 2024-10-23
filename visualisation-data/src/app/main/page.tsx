@@ -6,21 +6,6 @@ import { Select, SelectTrigger, SelectValue, SelectContent, SelectItem } from '@
 import { ChartConfig, ChartContainer, ChartTooltip, ChartTooltipContent } from '@/components/ui/chart';
 import { LegendProps } from 'recharts';
 
-// Fonction pour créer une légende personnalisée
-const CustomLegend = (props: LegendProps) => {
-  const { payload } = props;
-
-  return (
-    <ul style={{ fontSize: '20px', fontWeight: 'bold' }}> {/* Taille du texte ajustée ici */}
-      {payload?.map((entry, index) => (
-        <li key={`item-${index}`} style={{ color: entry.color }}>
-          {entry.value}
-        </li>
-      ))}
-    </ul>
-  );
-};
-
 // Définir les types pour les données
 interface Stat {
   mean: number;
@@ -118,10 +103,9 @@ function Main() {
   const calculateRankForStat = (stat: string, statGroup: string, statType: string): number => {
     if (!data) return 0;
   
-    // Extract all clubs and their means for this statistic
     const clubsAndStats = Object.keys(data).map((club) => ({
       club,
-      mean: data[club].means[statGroup]?.[stat]?.mean || 0, // Utiliser la chaîne optionnelle pour éviter les erreurs
+      mean: data[club].means[statGroup]?.[stat]?.mean || 0,
     }));
   
     // Trier les clubs en fonction de la moyenne de la statistique
@@ -131,7 +115,7 @@ function Main() {
     });
   
     // Trouver la position du club sélectionné dans ce classement
-    return clubsAndStats.findIndex((clubData) => clubData.club === selectedClub) + 1; // Ajouter 1 pour convertir l'index en rang
+    return clubsAndStats.findIndex((clubData) => clubData.club === selectedClub) + 1;
   };
   
 
