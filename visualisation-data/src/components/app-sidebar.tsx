@@ -25,7 +25,7 @@ const items = [
   },
   {
     title: "Graphs",
-    url: "/graph",
+    url: "/graphs",
     icon: Calendar,
   },
   {
