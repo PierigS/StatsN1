@@ -1,5 +1,13 @@
 {
     "overview": {
+        "goalsScored": {
+            "type": "positive",
+            "fr": "Buts marqués"
+        },
+        "goalsAgainst": {
+            "type": "negative",
+            "fr": "Buts encaissés"
+        },
         "ballPossession": {
             "type": "positive",
             "fr": "Possession (%)"

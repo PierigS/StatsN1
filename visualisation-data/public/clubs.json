@@ -1617,6 +1617,16 @@
         ],
         "means": {
             "overview": {
+                "goalsScored": {
+                    "total": 6,
+                    "count": 8,
+                    "mean": 0.75
+                },
+                "goalsAgainst": {
+                    "total": 9,
+                    "count": 8,
+                    "mean": 1.12
+                },
                 "ballPossession": {
                     "total": 359,
                     "count": 7,
@@ -3535,6 +3545,16 @@
         ],
         "means": {
             "overview": {
+                "goalsScored": {
+                    "total": 10,
+                    "count": 9,
+                    "mean": 1.11
+                },
+                "goalsAgainst": {
+                    "total": 9,
+                    "count": 9,
+                    "mean": 1.0
+                },
                 "ballPossession": {
                     "total": 311,
                     "count": 7,
@@ -5665,6 +5685,16 @@
         ],
         "means": {
             "overview": {
+                "goalsScored": {
+                    "total": 9,
+                    "count": 8,
+                    "mean": 1.12
+                },
+                "goalsAgainst": {
+                    "total": 17,
+                    "count": 8,
+                    "mean": 2.12
+                },
                 "ballPossession": {
                     "total": 354,
                     "count": 8,
@@ -7555,11 +7585,6 @@
             },
             {
                 "isHome": "away",
-                "score": "postponed",
-                "stats": {}
-            },
-            {
-                "isHome": "away",
                 "score": {
                     "home": 1,
                     "away": 0
@@ -7788,6 +7813,16 @@
         ],
         "means": {
             "overview": {
+                "goalsScored": {
+                    "total": 8,
+                    "count": 8,
+                    "mean": 1.0
+                },
+                "goalsAgainst": {
+                    "total": 8,
+                    "count": 8,
+                    "mean": 1.0
+                },
                 "ballPossession": {
                     "total": 410,
                     "count": 8,
@@ -9914,6 +9949,16 @@
         ],
         "means": {
             "overview": {
+                "goalsScored": {
+                    "total": 6,
+                    "count": 8,
+                    "mean": 0.75
+                },
+                "goalsAgainst": {
+                    "total": 4,
+                    "count": 8,
+                    "mean": 0.5
+                },
                 "ballPossession": {
                     "total": 420,
                     "count": 8,
@@ -12275,6 +12320,16 @@
         ],
         "means": {
             "overview": {
+                "goalsScored": {
+                    "total": 6,
+                    "count": 9,
+                    "mean": 0.66
+                },
+                "goalsAgainst": {
+                    "total": 8,
+                    "count": 9,
+                    "mean": 0.88
+                },
                 "ballPossession": {
                     "total": 469,
                     "count": 9,
@@ -14177,11 +14232,6 @@
             },
             {
                 "isHome": "home",
-                "score": "postponed",
-                "stats": {}
-            },
-            {
-                "isHome": "home",
                 "score": {
                     "home": 1,
                     "away": 0
@@ -14410,6 +14460,16 @@
         ],
         "means": {
             "overview": {
+                "goalsScored": {
+                    "total": 8,
+                    "count": 9,
+                    "mean": 0.88
+                },
+                "goalsAgainst": {
+                    "total": 11,
+                    "count": 9,
+                    "mean": 1.22
+                },
                 "ballPossession": {
                     "total": 411,
                     "count": 8,
@@ -16762,6 +16822,16 @@
         ],
         "means": {
             "overview": {
+                "goalsScored": {
+                    "total": 15,
+                    "count": 9,
+                    "mean": 1.66
+                },
+                "goalsAgainst": {
+                    "total": 11,
+                    "count": 9,
+                    "mean": 1.22
+                },
                 "ballPossession": {
                     "total": 450,
                     "count": 9,
@@ -18888,6 +18958,16 @@
         ],
         "means": {
             "overview": {
+                "goalsScored": {
+                    "total": 6,
+                    "count": 8,
+                    "mean": 0.75
+                },
+                "goalsAgainst": {
+                    "total": 8,
+                    "count": 8,
+                    "mean": 1.0
+                },
                 "ballPossession": {
                     "total": 385,
                     "count": 8,
@@ -21245,6 +21325,16 @@
         ],
         "means": {
             "overview": {
+                "goalsScored": {
+                    "total": 12,
+                    "count": 9,
+                    "mean": 1.33
+                },
+                "goalsAgainst": {
+                    "total": 12,
+                    "count": 9,
+                    "mean": 1.33
+                },
                 "ballPossession": {
                     "total": 471,
                     "count": 9,
@@ -23144,6 +23234,16 @@
         ],
         "means": {
             "overview": {
+                "goalsScored": {
+                    "total": 7,
+                    "count": 8,
+                    "mean": 0.87
+                },
+                "goalsAgainst": {
+                    "total": 12,
+                    "count": 8,
+                    "mean": 1.5
+                },
                 "ballPossession": {
                     "total": 355,
                     "count": 7,
@@ -25269,6 +25369,16 @@
         ],
         "means": {
             "overview": {
+                "goalsScored": {
+                    "total": 13,
+                    "count": 9,
+                    "mean": 1.44
+                },
+                "goalsAgainst": {
+                    "total": 6,
+                    "count": 9,
+                    "mean": 0.66
+                },
                 "ballPossession": {
                     "total": 403,
                     "count": 8,
@@ -27398,6 +27508,16 @@
         ],
         "means": {
             "overview": {
+                "goalsScored": {
+                    "total": 9,
+                    "count": 8,
+                    "mean": 1.12
+                },
+                "goalsAgainst": {
+                    "total": 6,
+                    "count": 8,
+                    "mean": 0.75
+                },
                 "ballPossession": {
                     "total": 423,
                     "count": 8,
@@ -29304,11 +29424,6 @@
             },
             {
                 "isHome": "away",
-                "score": "postponed",
-                "stats": {}
-            },
-            {
-                "isHome": "away",
                 "score": {
                     "home": 4,
                     "away": 1
@@ -29772,6 +29887,16 @@
         ],
         "means": {
             "overview": {
+                "goalsScored": {
+                    "total": 14,
+                    "count": 9,
+                    "mean": 1.55
+                },
+                "goalsAgainst": {
+                    "total": 14,
+                    "count": 9,
+                    "mean": 1.55
+                },
                 "ballPossession": {
                     "total": 461,
                     "count": 9,
@@ -31902,6 +32027,16 @@
         ],
         "means": {
             "overview": {
+                "goalsScored": {
+                    "total": 12,
+                    "count": 8,
+                    "mean": 1.5
+                },
+                "goalsAgainst": {
+                    "total": 7,
+                    "count": 8,
+                    "mean": 0.87
+                },
                 "ballPossession": {
                     "total": 351,
                     "count": 8,
@@ -33795,11 +33930,6 @@
             },
             {
                 "isHome": "home",
-                "score": "postponed",
-                "stats": {}
-            },
-            {
-                "isHome": "home",
                 "score": {
                     "home": 4,
                     "away": 1
@@ -34263,6 +34393,16 @@
         ],
         "means": {
             "overview": {
+                "goalsScored": {
+                    "total": 15,
+                    "count": 9,
+                    "mean": 1.66
+                },
+                "goalsAgainst": {
+                    "total": 11,
+                    "count": 9,
+                    "mean": 1.22
+                },
                 "ballPossession": {
                     "total": 462,
                     "count": 9,
@@ -36381,6 +36521,16 @@
         ],
         "means": {
             "overview": {
+                "goalsScored": {
+                    "total": 6,
+                    "count": 8,
+                    "mean": 0.75
+                },
+                "goalsAgainst": {
+                    "total": 9,
+                    "count": 8,
+                    "mean": 1.12
+                },
                 "ballPossession": {
                     "total": 405,
                     "count": 8,
