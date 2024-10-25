@@ -43,6 +43,27 @@
         "redCards": {
             "type": "negative",
             "fr": "Cartons rouges"
+        },
+        "expectedGoalsAgainst": {
+            "type": "negative",
+            "fr": "xGA"
+        },
+        "totalShotsConceded": {
+            "type": "negative",
+            "fr": "Tirs subis"
+        },
+        "cornerConceded": {
+            "type": "negative",
+            "fr": "Corners concédés"
+        },
+        "foulsSuffered": {
+            "type": "negative",
+            "fr": "Fautes subies"
+
+        },
+        "freeKicksConceded": {
+            "type": "negative",
+            "fr": "Coups francs concédés"
         }
     },
     "shots": {
@@ -109,6 +130,10 @@
         "accurateCross": {
             "type": "positive",
             "fr": "Transversales"
+        },
+        "ballIntercepted": {
+            "type": "negative",
+            "fr": "Ballons interceptés par l'adversaire"
         }
     },
     "duels": {
@@ -130,7 +155,15 @@
         },
         "dribblesPercentage": {
             "type": "positive",
-            "fr": "Dribbles"
+            "fr": "Dribbles réussis"
+        },
+        "ballWon": {
+            "type": "positive",
+            "fr": "Ballons gagnés"
+        },
+        "dribblesConceded": {
+            "type": "negative",
+            "fr": "Dribbles subis"
         }
     },
     "defense": {
@@ -149,6 +182,38 @@
         "errorsLeadToShot": {
             "type": "negative",
             "fr": "Erreurs menant à un tir"
+        },
+        "totalShotsConceded": {
+            "type": "negative",
+            "fr": "Tirs subis"
+        },
+        "shotsOnGoalConceded": {
+            "type": "negative",
+            "fr": "Tirs cadrés subis"
+        },
+        "shotsOffGoalConceded": {
+            "type": "negative",
+            "fr": "Tirs non cadrés subis"
+        },
+        "totalShotsInsideBoxConceded": {
+            "type": "negative",
+            "fr": "Tirs depuis la surface subis"
+        },
+        "totalShotsOutideBoxConceded": {
+            "type": "negative",
+            "fr": "Tirs en-dehors de la surface subis"
+        },
+        "touchesInBoxByOpp": {
+            "type": "negative",
+            "fr": "Ballons touchés par l'adversaire dans la surface"
+        },
+        "offsidesWon": {
+            "type": "positive",
+            "fr": "Hors-jeu de l'adversais"
+        },
+        "OppInFinalThirdPhase": {
+            "type": "negative",
+            "fr": "Passes de l'adversaire dans le premier tiers"
         }
     },
     "goalkeepers": {
@@ -166,3 +231,4 @@
         }
     }
 }
+               

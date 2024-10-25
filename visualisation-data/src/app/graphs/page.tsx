@@ -84,7 +84,12 @@ function Graphs() {
 
         const domainX = calculateBounds(statXArray);
         const domainY = calculateBounds(statYArray);
-        
+        const ticksX = Array.from({ length: 11 }, (_, i) => {
+            return (domainX[0] + (domainX[1] - domainX[0]) * (i / 10)).toFixed(2); // 11 points pour 10 intervalles
+        });
+        const ticksY = Array.from({ length: 11 }, (_, i) => {
+            return (domainY[0] + (domainY[1] - domainY[0]) * (i / 10)).toFixed(2); // 11 points pour 10 intervalles
+        });
 
         const renderCustomizedPoints = (props: any) => {
             const { cx, cy, payload } = props; 
@@ -124,6 +129,7 @@ function Graphs() {
                     dataKey="clubStatX"
                     width={100}
                     domain={domainX}
+                    ticks={ticksX}
                     label={{ value: `${statDesc[statGroupX][statX].fr}`, position: 'insideBottom', offset: 0 }} 
                 />
                 <YAxis 
@@ -131,6 +137,7 @@ function Graphs() {
                     dataKey="clubStatY"
                     width={100}
                     domain={domainY}
+                    ticks={ticksY}
                     label={{ value: `${statDesc[statGroupY][statY].fr}`, angle: -90, position: 'insideLeft' }} 
                 />
                 <ChartTooltip 

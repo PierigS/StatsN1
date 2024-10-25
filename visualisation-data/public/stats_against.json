@@ -1,0 +1,79 @@
+{
+    "overview": {
+        "expectedGoals": {
+            "new_name": "expectedGoalsAgainst",
+            "new_group": "overview"
+        },
+        "totalShotsOnGoal": {
+            "new_name": "totalShotsConceded",
+            "new_group": "overview"
+        },
+        "cornerKicks": {
+            "new_name": "cornerConceded",
+            "new_group": "overview"
+        },
+        "fouls": {
+            "new_name": "foulsSuffered",
+            "new_group": "overview"
+        },
+        "freeKicks": {
+            "new_name": "freeKicksConceded",
+            "new_group": "overview"
+        }
+    },
+    "shots": {
+        "totalShotsOnGoal": {
+            "new_name": "totalShotsConceded",
+            "new_group": "defense"
+        },
+        "shotsOnGoal": {
+            "new_name": "shotsOnGoalConceded",
+            "new_group": "defense"
+        },
+        "shotsOffGoal": {
+            "new_name": "shotsOffGoalConceded",
+            "new_group": "defense"
+        },
+        "totalShotsInsideBox": {
+            "new_name": "totalShotsInsideBoxConceded",
+            "new_group": "defense"
+        },
+        "totalShotsOutsideBox": {
+            "new_name": "totalShotsInsideBoxConceded",
+            "new_group": "defense"
+        }
+    },
+    "attack": {
+        "touchesInOppBox": {
+            "new_name": "touchesInBoxByOpp",
+            "new_group": "defense"
+        },
+        "offsides": {
+            "new_name": "offsidesWon",
+            "new_group": "defense"
+        }
+    },
+    "passes": {
+        "finalThirdPhaseStatistic": {
+            "new_name": "OppInFinalThirdPhase",
+            "new_group": "defense"
+        }
+    },
+    "duels": {
+        "dispossessed": {
+            "new_name": "ballWon",
+            "new_group": "duels"
+        },
+        "dribblesPercentage": {
+            "new_name": "dribblesConceded",
+            "new_group": "duels"
+        }
+    },
+    "defense": {
+        "interceptionWon": {
+            "new_name": "ballIntercepted",
+            "new_group": "attack"
+        }
+    }
+}
+                    
