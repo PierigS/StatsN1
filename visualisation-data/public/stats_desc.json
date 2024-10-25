@@ -8,9 +8,17 @@
             "type": "positive",
             "fr": "xG"
         },
+        "expectedGoalsAgainst": {
+            "type": "negative",
+            "fr": "xGA"
+        },
         "totalShotsOnGoal": {
             "type": "positive",
             "fr": "Tirs"
+        },
+        "totalShotsConceded": {
+            "type": "negative",
+            "fr": "Tirs subis"
         },
         "goalkeeperSaves": {
             "type": "positive",
@@ -24,6 +32,11 @@
             "type": "negative",
             "fr": "Fautes"
         },
+        "foulsSuffered": {
+            "type": "negative",
+            "fr": "Fautes subies"
+
+        },
         "passes": {
             "type": "positive",
             "fr": "Passes"
@@ -36,6 +49,10 @@
             "type": "positive",
             "fr": "Coups francs"
         },
+        "freeKicksConceded": {
+            "type": "negative",
+            "fr": "Coups francs concédés"
+        },
         "yellowCards": {
             "type": "negative",
             "fr": "Cartons jaunes"
@@ -44,26 +61,9 @@
             "type": "negative",
             "fr": "Cartons rouges"
         },
-        "expectedGoalsAgainst": {
-            "type": "negative",
-            "fr": "xGA"
-        },
-        "totalShotsConceded": {
-            "type": "negative",
-            "fr": "Tirs subis"
-        },
         "cornerConceded": {
             "type": "negative",
             "fr": "Corners concédés"
-        },
-        "foulsSuffered": {
-            "type": "negative",
-            "fr": "Fautes subies"
-
-        },
-        "freeKicksConceded": {
-            "type": "negative",
-            "fr": "Coups francs concédés"
         }
     },
     "shots": {
@@ -145,6 +145,10 @@
             "type": "negative",
             "fr": "Pertes de balle"
         },
+        "ballWon": {
+            "type": "positive",
+            "fr": "Ballons gagnés"
+        },
         "groundDuelsPercentage": {
             "type": "positive",
             "fr": "Duels au sol"
@@ -156,10 +160,6 @@
         "dribblesPercentage": {
             "type": "positive",
             "fr": "Dribbles réussis"
-        },
-        "ballWon": {
-            "type": "positive",
-            "fr": "Ballons gagnés"
         },
         "dribblesConceded": {
             "type": "negative",
@@ -231,4 +231,3 @@
         }
     }
 }
-               
