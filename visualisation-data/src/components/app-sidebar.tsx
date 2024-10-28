@@ -29,18 +29,18 @@ const items = [
     icon: Calendar,
   },
   {
-    title: "Rankings",
-    url: "/rankings",
-    icon: Search,
-  },
-  {
     title: "Games",
     url: "/games",
     icon: Settings,
   },
   {
-    title: "Players",
-    url: "/players",
+    title: "Player",
+    url: "/player",
+    icon: Settings,
+  },
+  {
+    title: "Graphs players",
+    url: "/graphs-players",
     icon: Settings,
   },
 ]

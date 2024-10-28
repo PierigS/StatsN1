@@ -147,16 +147,14 @@ def get_players_stats(game, game_id):
     game['players_stats'] = {}
     game['players_stats']['home'] = {}
     game['players_stats']['away'] = {}
-    for player in players_stats['home']['players']:
-        if 'statistics' in player and 'position' in player:
-            game['players_stats']['home'][player['player']['slug']] = {}
-            game['players_stats']['home'][player['player']['slug']]['position'] = player['position']
-            game['players_stats']['home'][player['player']['slug']]['statistics'] = player['statistics']
-    for player in players_stats['away']['players']:
-        if 'statistics' in player and 'position' in player:
-            game['players_stats']['away'][player['player']['slug']] = {}
-            game['players_stats']['away'][player['player']['slug']]['position'] = player['position']
-            game['players_stats']['away'][player['player']['slug']]['statistics'] = player['statistics']
+    for team in ['home', 'away']:
+        for player in players_stats['home']['players']:
+            if 'statistics' in player and 'position' in player:
+                game['players_stats'][team][player['player']['slug']] = {}
+                game['players_stats'][team][player['player']['slug']]['id'] = player['player']['id']
+                game['players_stats'][team][player['player']['slug']]['position'] = player['position']
+                game['players_stats'][team][player['player']['slug']]['statistics'] = player['statistics']
+
     return game
 
 def get_game_events(game, game_id):
