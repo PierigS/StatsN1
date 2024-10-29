@@ -148,11 +148,29 @@ def get_players_stats(game, game_id):
     game['players_stats']['home'] = {}
     game['players_stats']['away'] = {}
     for team in ['home', 'away']:
-        for player in players_stats['home']['players']:
+        for player in players_stats[team]['players']:
             if 'statistics' in player and 'position' in player:
                 game['players_stats'][team][player['player']['slug']] = {}
-                game['players_stats'][team][player['player']['slug']]['id'] = player['player']['id']
-                game['players_stats'][team][player['player']['slug']]['position'] = player['position']
+                game['players_stats'][team][player['player']['slug']]['infos'] = {}
+                game['players_stats'][team][player['player']['slug']]['infos']['id'] = player['player']['id']
+                game['players_stats'][team][player['player']['slug']]['infos']['name'] = player['player']['name']
+                game['players_stats'][team][player['player']['slug']]['infos']['country'] = player['player']['country']
+                game['players_stats'][team][player['player']['slug']]['infos']['team'] =  game[f'{team}_team']['name']
+                game['players_stats'][team][player['player']['slug']]['infos']['team-code'] =  game[f'{team}_team']['namecode']
+                if 'jerseyNumber' in player:
+                    game['players_stats'][team][player['player']['slug']]['infos']['jerseyNumber'] = player['jerseyNumber']
+                if 'height' in player:
+                    game['players_stats'][team][player['player']['slug']]['infos']['height'] = player['height']
+                if 'preferredFoot' in player:
+                    game['players_stats'][team][player['player']['slug']]['infos']['preferredFoot'] = player['preferredFoot']
+                if 'contractUntilTimestamp' in player:
+                    game['players_stats'][team][player['player']['slug']]['infos']['contractUntilTimestamp'] = player['contractUntilTimestamp']
+                if 'dateOfBirthTimestamp' in player:
+                    game['players_stats'][team][player['player']['slug']]['infos']['dateOfBirthTimestamp'] = player['dateOfBirthTimestamp']
+                if 'proposedMarketValue' in player:
+                    game['players_stats'][team][player['player']['slug']]['infos']['proposedMarketValue'] = f'{player['proposedMarketValue']}€'
+                
+                game['players_stats'][team][player['player']['slug']]['infos']['position'] = player['position']
                 game['players_stats'][team][player['player']['slug']]['statistics'] = player['statistics']
 
     return game

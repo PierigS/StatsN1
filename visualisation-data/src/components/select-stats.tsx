@@ -1,4 +1,4 @@
-// components/select-stats.tsx
+
 
 import React from 'react';
 import {
@@ -24,7 +24,6 @@ const SelectStats: React.FC<SelectStatsProps> = ({
     placeholder = 'Sélectionnez une statistique',
     label,
 }) => {
-    console.log(statDesc);
     return (
         <div>
             <label htmlFor="statX">{label}</label>

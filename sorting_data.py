@@ -104,48 +104,23 @@ for game in data['games']:
             
             # Ajouter les informations de chaque joueur dans `players`
             if 'players_stats' in game:
-                for player_info in game['players_stats'][team]:
-                    player_slug = player_info
+                for player_slug in game['players_stats'][team]:
+                    
                     if player_slug not in players:
-                        players[player_slug] = {'games': []}
-                        
-                    if 'infos' not in players[player_slug]:
-                        data_player = call_api(f'https://www.sofascore.com/api/v1/player/{game['players_stats'][team][player_info]['id']}')['player']
-                        players[player_slug]['infos'] = {
-                            'id': data_player['id'],
-                            'name': data_player['name'],
-                            'country': data_player['country']
-                        }
-                    if 'team' in data_player:
-                        players[player_slug]['infos']['team'] = data_player['team']
-                    if 'jerseyNumber' in data_player:
-                        players[player_slug]['infos']['jerseyNumber'] = data_player['jerseyNumber']
-                    if 'height' in data_player:
-                        players[player_slug]['infos']['height'] = data_player['height']
-                    if 'preferredFoot' in data_player:
-                        players[player_slug]['infos']['preferredFoot'] = data_player['preferredFoot']
-                    if 'contractUntilTimestamp' in data_player:
-                        players[player_slug]['infos']['contractUntilTimestamp'] = data_player['contractUntilTimestamp']
-                    if 'dateOfBirthTimestamp' in data_player:
-                        players[player_slug]['infos']['dateOfBirthTimestamp'] = data_player['dateOfBirthTimestamp']
-                    if 'proposedMarketValue' in data_player:
-                        players[player_slug]['infos']['proposedMarketValue'] = f'{data_player['proposedMarketValue']}€'
+                        players[player_slug] = {'games':[]}                        
                             
-                    if not os.path.isfile(f'./visualisation-data/public/players_faces/{players[player_slug]["infos"]["id"]}.png'):
-                        response = requests.get(f'https://www.sofascore.com/api/v1/player/{game["players_stats"][team][player_info]["id"]}/image')
+                    if not os.path.isfile(f'./visualisation-data/public/players_faces/{game["players_stats"][team][player_slug]['infos']["id"]}.png'):
+                        response = requests.get(f'https://www.sofascore.com/api/v1/player/{game["players_stats"][team][player_slug]['infos']["id"]}/image')
 
                         if response.status_code == 200:
-                            with open(f'./visualisation-data/public/players_faces/{players[player_slug]["infos"]["id"]}.png', 'wb') as file:
+                            with open(f'./visualisation-data/public/players_faces/{game["players_stats"][team][player_slug]['infos']["id"]}.png', 'wb') as file:
                                 file.write(response.content)
                         
                     player_game_data = {
-                        'team': clubs[team_name]['name'],
-                        'team-short': team_name,
                         'match': game['round'],
-                        'position': game['players_stats'][team][player_info].get('position', ''),
-                        'statistics': game['players_stats'][team][player_info].get('statistics', {}),
+                        'statistics': game['players_stats'][team][player_slug].get('statistics', {}),
                     }
-                    
+                    players[player_slug]['infos'] = game['players_stats'][team][player_slug]['infos']
                     players[player_slug]['games'].append(player_game_data)
 
 # Calculer les moyennes pour chaque statistique
