@@ -61,16 +61,22 @@ def get_game_ids():
     driver.close()
     return game_ids
 
+def write_game_ids(game_ids):
+    with open('./visualisation-data/public/ids.json', 'w', encoding='utf-8') as json_file:
+        json.dump(game_ids, json_file, ensure_ascii=False, indent=4)
+
 def get_game(game, game_id):
     teams_infos = call_api(f"{api_links['game']}{game_id}")
     game['round'] = teams_infos['event']['roundInfo']['round']
     game['home_team'] = {
         'name': teams_infos['event']['homeTeam']['name'],
         'namecode': teams_infos['event']['homeTeam']['nameCode'],
+        'teamId': teams_infos['event']['homeTeam']['id'],
     }
     game['away_team'] = {
         'name': teams_infos['event']['awayTeam']['name'],
         'namecode': teams_infos['event']['awayTeam']['nameCode'],
+        'teamId': teams_infos['event']['awayTeam']['id'],
     }
     if teams_infos['event']['status']['code'] == 60:
         game['score'] = 'postponed'
@@ -137,42 +143,6 @@ def get_teams_stats(game, game_id):
             'away': stat['awayValue'],
             'type': stat['statisticsType'],
         }
-    return game
-
-def get_players_stats(game, game_id):
-    players_stats = call_api(f"{api_links['game']}{game_id}{api_links['players_stats']}")
-    if 'error' in players_stats:
-        return game
-    
-    game['players_stats'] = {}
-    game['players_stats']['home'] = {}
-    game['players_stats']['away'] = {}
-    for team in ['home', 'away']:
-        for player in players_stats[team]['players']:
-            if 'statistics' in player and 'position' in player:
-                game['players_stats'][team][player['player']['slug']] = {}
-                game['players_stats'][team][player['player']['slug']]['infos'] = {}
-                game['players_stats'][team][player['player']['slug']]['infos']['id'] = player['player']['id']
-                game['players_stats'][team][player['player']['slug']]['infos']['name'] = player['player']['name']
-                game['players_stats'][team][player['player']['slug']]['infos']['country'] = player['player']['country']
-                game['players_stats'][team][player['player']['slug']]['infos']['team'] =  game[f'{team}_team']['name']
-                game['players_stats'][team][player['player']['slug']]['infos']['team-code'] =  game[f'{team}_team']['namecode']
-                if 'jerseyNumber' in player:
-                    game['players_stats'][team][player['player']['slug']]['infos']['jerseyNumber'] = player['jerseyNumber']
-                if 'height' in player:
-                    game['players_stats'][team][player['player']['slug']]['infos']['height'] = player['height']
-                if 'preferredFoot' in player:
-                    game['players_stats'][team][player['player']['slug']]['infos']['preferredFoot'] = player['preferredFoot']
-                if 'contractUntilTimestamp' in player:
-                    game['players_stats'][team][player['player']['slug']]['infos']['contractUntilTimestamp'] = player['contractUntilTimestamp']
-                if 'dateOfBirthTimestamp' in player:
-                    game['players_stats'][team][player['player']['slug']]['infos']['dateOfBirthTimestamp'] = player['dateOfBirthTimestamp']
-                if 'proposedMarketValue' in player:
-                    game['players_stats'][team][player['player']['slug']]['infos']['proposedMarketValue'] = f'{player['proposedMarketValue']}€'
-                
-                game['players_stats'][team][player['player']['slug']]['infos']['position'] = player['position']
-                game['players_stats'][team][player['player']['slug']]['statistics'] = player['statistics']
-
     return game
 
 def get_game_events(game, game_id):
@@ -253,12 +223,13 @@ api_links = {
 
 game_ids = get_game_ids()
 
+write_game_ids(game_ids)
+
 all_games = []
 for game_id in game_ids: 
     game = {}
     game = get_game(game, game_id)
     game = get_teams_stats(game, game_id)
-    game = get_players_stats(game, game_id)
     game = get_game_events(game, game_id)
     game = get_domination(game, game_id)
     game = get_shotmap(game, game_id)

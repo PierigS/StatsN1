@@ -24,6 +24,7 @@ for game in data['games']:
         if team_name not in clubs:
             clubs[team_name] = {'games': [], 'means': {'overview':{'goalsScored':{'total':0, 'count':0}, 'goalsAgainst': {'total':0, 'count':0}}}}
             clubs[team_name]['name'] = game[f"{team}_team"]['name']
+            clubs[team_name]['teamId'] = game[f"{team}_team"]['teamId']
 
 for game in data['games']:
     for team, opponent in [('home', 'away'), ('away', 'home')]:
@@ -102,27 +103,6 @@ for game in data['games']:
 
             clubs[team_name]['games'].append(team_game)
             
-            # Ajouter les informations de chaque joueur dans `players`
-            if 'players_stats' in game:
-                for player_slug in game['players_stats'][team]:
-                    
-                    if player_slug not in players:
-                        players[player_slug] = {'games':[]}                        
-                            
-                    if not os.path.isfile(f'./visualisation-data/public/players_faces/{game["players_stats"][team][player_slug]['infos']["id"]}.png'):
-                        response = requests.get(f'https://www.sofascore.com/api/v1/player/{game["players_stats"][team][player_slug]['infos']["id"]}/image')
-
-                        if response.status_code == 200:
-                            with open(f'./visualisation-data/public/players_faces/{game["players_stats"][team][player_slug]['infos']["id"]}.png', 'wb') as file:
-                                file.write(response.content)
-                        
-                    player_game_data = {
-                        'match': game['round'],
-                        'statistics': game['players_stats'][team][player_slug].get('statistics', {}),
-                    }
-                    players[player_slug]['infos'] = game['players_stats'][team][player_slug]['infos']
-                    players[player_slug]['games'].append(player_game_data)
-
 # Calculer les moyennes pour chaque statistique
 for club in clubs:
     for stats_group in clubs[club]['means']:
@@ -134,10 +114,5 @@ for club in clubs:
 # Sauvegarder les résultats dans un fichier JSON
 with open('./visualisation-data/public/clubs.json', 'w', encoding='utf-8') as club_file:
     json.dump(clubs, club_file, indent=4)
-
-# Sauvegarder les résultats dans un fichier JSON pour les joueurs
-with open('./visualisation-data/public/players.json', 'w', encoding='utf-8') as player_file:
-    json.dump(players, player_file, indent=4)
-
 
 print("Done!")
