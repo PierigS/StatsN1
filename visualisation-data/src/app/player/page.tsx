@@ -4,6 +4,8 @@
 
 import React, { useState, useEffect } from 'react';
 import SelectCustom from '@/components/select-custom';
+import RadarOff from '@/components/radar-off';
+import RadarDef from '@/components/radar-def';
 
 interface PlayerInfo {
     player: {
@@ -30,7 +32,46 @@ interface PlayerInfo {
     };
     games: Array<{
         match: number;
-        statistics: Record<string, any>;
+        substitute?: boolean;
+        statistics: {
+            totalPass: number | null;
+            accuratePass: number | null;
+            totalLongBalls: number | null;
+            accurateLongBalls: number | null;
+            goalAssist: number | null;
+            totalCross: number | null;
+            accurateCross: number | null;
+            aerialLost: number | null;
+            aerialWon: number | null;
+            duelLost: number | null;
+            duelWon: number | null;
+            challengeLost: number | null;
+            dispossessed: number | null;
+            totalContest: number | null;
+            wonContest: number | null;
+            onTargetScoringAttempt: number | null;
+            goals: number | null;
+            totalClearance: number | null;
+            outfielderBlock: number | null;
+            interceptionWon: number | null;
+            totalTackle: number | null;
+            errorLeadToAShot: number | null;
+            ownGoals: number | null;
+            wasFouled: number | null;
+            fouls: number | null;
+            totalOffside: number | null;
+            minutesPlayed: number | null;
+            touches: number | null;
+            rating: number | null;
+            possessionLostCtrl: number | null;
+            expectedGoals: number | null;
+            keyPass: number | null;
+            ratingVersions: {
+                original: number | null;
+                alternative: number | null;
+            };
+            expectedAssists: number | null;
+        };
     }>;
     teamId: number;
 }
@@ -39,6 +80,22 @@ interface ClubInfo {
     name: string;
     teamId: number;
 }
+
+const calculatePlayerStats = (player: PlayerInfo) => {
+    const stats = player.games.reduce(
+        (acc, game) => {
+            acc.minutesPlayed += game.statistics.minutesPlayed || 0;
+            acc.goals += game.statistics.goals || 0;
+            acc.assists += game.statistics.goalAssist || 0;
+            if (game.substitute === false) acc.starts += 1;
+            return acc;
+        },
+        { minutesPlayed: 0, starts: 0, goals: 0, assists: 0 }
+    );
+
+    return stats;
+};
+
 
 function Players() {
     const [playerData, setPlayerData] = useState<Record<string, PlayerInfo> | null>(null);
@@ -77,6 +134,8 @@ function Players() {
     const teamName = selectedPlayerData && clubData.length > 0
         ? clubData.find((club) => club.teamId === selectedPlayerData.teamId)?.name
         : '';
+    
+    const playerStats = selectedPlayerData ? calculatePlayerStats(selectedPlayerData) : null;
 
     return (
         <div>
@@ -133,8 +192,23 @@ function Players() {
                             <p className="text-l">{selectedPlayerData.player.country.name}</p>
                             <p className="text-left">Position : {selectedPlayerData.player.position}</p>
                             <p className="text-left">Numéro de maillot : {selectedPlayerData.player.jerseyNumber}</p>
+                            {playerStats && (
+                                <p>{playerStats.minutesPlayed}min jouées. {playerStats.starts} titularisations. {playerStats.goals} buts. {playerStats.assists} passes décisives.</p>
+                            )}
                         </div>
                     </div>
+                    {/*<RadarPlayer playerData={playerData} selectedPlayerId={selectedPlayer} />*/}
+                    {playerStats?.minutesPlayed > 300 && (
+                        <div className='flex w-full'>
+                            <div className='flex-1 w-[850px]'>
+                                <RadarOff playerData={playerData} selectedPlayerId={selectedPlayer} />
+                            </div>
+                            <div className='flex-1 w-[850px]'>
+                                <RadarDef playerData={playerData} selectedPlayerId={selectedPlayer} />
+                            </div>
+                        </div>
+                    )}
+
                 </div>
             )}
         </div>

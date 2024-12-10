@@ -44,13 +44,13 @@ def main():
                     if player_id not in players_data:
                         players_data[player_id] = {
                             'player': player['player'],
-                            'teamId': player['teamId'],
                             'games': []
                         }
-
+                    players_data[player_id]['teamId'] = player['teamId']
                     game_data = {
                         'gameId': event_id,
                         'statistics': player.get('statistics', {}),
+                        'substitute': player.get('substitute', None),
                         'position': player.get('position', None)
                     }
                     players_data[player_id]['games'].append(game_data)
@@ -63,7 +63,7 @@ def main():
                     all_players_data[player_id]['games'].extend(player_info['games'])
 
     # Enregistrer les données
-    with open("players.json", "w", encoding="utf-8") as f:
+    with open("./visualisation-data/public/players.json", "w", encoding="utf-8") as f:
         json.dump(all_players_data, f, ensure_ascii=False, indent=4)
     print("Toutes les données des joueurs ont été sauvegardées dans players.json.")
 
