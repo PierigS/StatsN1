@@ -18,6 +18,14 @@ const calculateMedian = (values) => {
 };
 
 const description = {
+  "goals": "Buts", 
+  "expectedGoals": "xG", 
+  "accurateLongBalls": "Passes prof. réussies (%)", 
+  "touches": "Touches",
+  "wonContest": "Dribbles réussis (%)", 
+  "wasFouled": "Fautes subies", 
+  "possessionLostCtrl": "Pertes de balle", 
+  "goalAssist": "Passes décisives",
   "errorLeadToAShot": "Erreur menant à un but",
   "interceptionWon": "Interceptions",
   "accuratePass": "Passes réussies (%)",
@@ -28,7 +36,102 @@ const description = {
   "totalTackle": "Tacles",
 }
 
-const data_player_def = (playerData, selectedPlayerId) => {
+// Fonction pour générer les données du joueur
+const data_player_off = (playerData, selectedPlayersId) => {
+  const keysToSum = [
+    "goals", "expectedGoals", "accurateLongBalls", "totalLongBalls", "touches",
+    "wonContest", "totalContest", "wasFouled", "possessionLostCtrl", "goalAssist", "minutesPlayed"
+  ];
+
+  const calculateMetrics = (playerData) => {
+    const totalStats = keysToSum.reduce((acc, key) => {
+      acc[key] = 0;
+      return acc;
+    }, {});
+
+    playerData.games.forEach(game => {
+      keysToSum.forEach(key => {
+        if (game.statistics[key] !== undefined) {
+          totalStats[key] += game.statistics[key];
+        }
+      });
+    });
+
+    const minutesPlayed = totalStats.minutesPlayed || 1;
+    const roundToTwoDigits = (num) => Math.round((num + Number.EPSILON) * 100) / 100;
+
+    return {
+      goals: roundToTwoDigits((totalStats.goals * 90) / minutesPlayed),
+      expectedGoals: roundToTwoDigits((totalStats.expectedGoals * 90) / minutesPlayed),
+      accurateLongBalls: roundToTwoDigits(100*totalStats.accurateLongBalls / totalStats.totalLongBalls || 0) ,
+      touches: roundToTwoDigits((totalStats.touches * 90) / minutesPlayed),
+      wonContest: roundToTwoDigits(100* totalStats.wonContest / totalStats.totalContest || 0),
+      wasFouled: roundToTwoDigits((totalStats.wasFouled * 90) / minutesPlayed),
+      possessionLostCtrl: roundToTwoDigits((totalStats.possessionLostCtrl * 90) / minutesPlayed),
+      goalAssist: roundToTwoDigits((totalStats.goalAssist * 90) / minutesPlayed),
+      minutesPlayed: totalStats.minutesPlayed, 
+    };
+  };
+
+  const secondPlayer = selectedPlayersId.length === 2 ? true : false;  
+  const selectedPlayerMetrics = calculateMetrics(playerData[selectedPlayersId[0].toString()]);
+  const selectedPlayerPosition = secondPlayer ? 
+    playerData[selectedPlayersId[0].toString()].player.position === playerData[selectedPlayersId[1].toString()].player.position ?
+    [playerData[selectedPlayersId[0].toString()].player.position] :
+    ["F", "M", "D"] : 
+    [playerData[selectedPlayersId[0].toString()].player.position];
+  const secondPlayerMetrics = secondPlayer ? calculateMetrics(playerData[selectedPlayersId[1].toString()]) : {};
+
+  // Filtrer les joueurs ayant la même position et au moins 300 minutes jouées
+  const playersWithSamePosition = Object.keys(playerData).filter(playerId => {
+    const player = playerData[playerId];
+    const metrics = calculateMetrics(player);
+    return (
+      selectedPlayerPosition.includes(player.player.position) &&
+      metrics.minutesPlayed > 300
+    );
+  });
+
+  const metricsByCategory = {
+    goals: [], expectedGoals: [], accurateLongBalls: [], touches: [],
+    wonContest: [], wasFouled: [], possessionLostCtrl: [], goalAssist: []
+  };
+
+  // Construire les valeurs des métriques pour chaque catégorie
+  playersWithSamePosition.forEach(playerId => {
+    const metrics = calculateMetrics(playerData[playerId]);
+    Object.keys(metricsByCategory).forEach(metric => {
+      metricsByCategory[metric].push(metrics[metric]);
+    });
+  });
+
+  // Calculer la médiane, minimum et maximum pour chaque métrique
+  const medianMetrics = Object.keys(metricsByCategory).reduce((acc, key) => {
+    acc[key] = calculateMedian(metricsByCategory[key]);
+    return acc;
+  }, {});
+
+  const maxMetrics = Object.keys(metricsByCategory).reduce((acc, key) => {
+    acc[key] = Math.max(...metricsByCategory[key]);
+    return acc;
+  }, {});
+
+  // Construire la variable dataPlayerOff
+  const dataPlayerOff = Object.keys(selectedPlayerMetrics).map(key => {
+    if (key === "minutesPlayed") return null; // Ignorer "minutesPlayed"
+    return {
+      subject: key,
+      base: maxMetrics[key],
+      A: selectedPlayerMetrics[key],
+      B: secondPlayer ? secondPlayerMetrics[key] : medianMetrics[key],
+      description: description[key],
+    };
+  }).filter(item => item !== null); // Filtrer les null (minutesPlayed)
+
+  return dataPlayerOff;
+};
+
+const data_player_def = (playerData, selectedPlayersId) => {
   const keysToSum = [
     "errorLeadToAShot", "interceptionWon", "duelWon", "duelLost", "totalTackle",
     "aerialWon", "aerialLost", "challengeLost", "fouls", "accuratePass", "totalPass", "minutesPlayed"
@@ -55,8 +158,8 @@ const data_player_def = (playerData, selectedPlayerId) => {
       errorLeadToAShot: roundToTwoDigits((totalStats.errorLeadToAShot * 90) / minutesPlayed),
       interceptionWon: roundToTwoDigits((totalStats.interceptionWon * 90) / minutesPlayed),
       accuratePass: roundToTwoDigits(100*totalStats.accuratePass / totalStats.totalPass || 0) ,
-      duelWon: roundToTwoDigits((totalStats.duelWon/(totalStats.duelWon+totalStats.duelLost)) || 0),
-      aerialWon: roundToTwoDigits((totalStats.aerialWon/(totalStats.aerialWon+totalStats.aerialLost)) || 0),
+      duelWon: roundToTwoDigits(100*(totalStats.duelWon/(totalStats.duelWon+totalStats.duelLost)) || 0),
+      aerialWon: roundToTwoDigits(100*(totalStats.aerialWon/(totalStats.aerialWon+totalStats.aerialLost)) || 0),
       fouls: roundToTwoDigits((totalStats.fouls * 90) / minutesPlayed),
       challengeLost: roundToTwoDigits((totalStats.challengeLost * 90) / minutesPlayed),
       totalTackle: roundToTwoDigits((totalStats.totalTackle * 90) / minutesPlayed),
@@ -64,18 +167,21 @@ const data_player_def = (playerData, selectedPlayerId) => {
     };
   };
 
-  const selectedPlayerMetrics = calculateMetrics(playerData[selectedPlayerId.toString()]);
-  const selectedPlayerPosition = playerData[selectedPlayerId.toString()].player.position;
+  const secondPlayer = selectedPlayersId.length === 2 ? true : false;  
+  const selectedPlayerMetrics = calculateMetrics(playerData[selectedPlayersId[0].toString()]);
+  const selectedPlayerPosition = secondPlayer ? ["F", "M", "D"] : [playerData[selectedPlayersId[0].toString()].player.position];
+  const secondPlayerMetrics = secondPlayer ? calculateMetrics(playerData[selectedPlayersId[1].toString()]) : {};
 
   // Filtrer les joueurs ayant la même position et au moins 300 minutes jouées
   const playersWithSamePosition = Object.keys(playerData).filter(playerId => {
     const player = playerData[playerId];
     const metrics = calculateMetrics(player);
     return (
-      player.player.position === selectedPlayerPosition &&
-      metrics.minutesPlayed > 300
+        selectedPlayerPosition.includes(player.player.position) &&
+        metrics.minutesPlayed > 300
     );
   });
+
 
   const metricsByCategory = {
     errorLeadToAShot: [], interceptionWon: [], accuratePass: [], duelWon: [],
@@ -108,7 +214,7 @@ const data_player_def = (playerData, selectedPlayerId) => {
       subject: key,
       base: maxMetrics[key],
       A: selectedPlayerMetrics[key],
-      B: medianMetrics[key],
+      B: secondPlayer ? secondPlayerMetrics[key] : medianMetrics[key],
       description: description[key],
     };
   }).filter(item => item !== null); // Filtrer les null (minutesPlayed)
@@ -120,22 +226,21 @@ const data_player_def = (playerData, selectedPlayerId) => {
 const lcm = (a, b) => (a * b) / gcd(a, b);
 const gcd = (a, b) => (b === 0 ? a : gcd(b, a % b));
 
-export default function RadarDef({ playerData, selectedPlayerId }) {
-  const dataDef = data_player_def(playerData, selectedPlayerId);
+export default function RadarStats({ playerData, selectedPlayersId, type }) {
+  const secondPlayer = selectedPlayersId.length === 2 ? true : false;
+  const data = type === 'off' ? data_player_off(playerData, selectedPlayersId) : data_player_def(playerData, selectedPlayersId);
 
   // Normalisation des données
-  const base = dataDef.map((item) => item.base).reduce(lcm);
+  const base = data.map((item) => item.base).reduce(lcm);
   const normalizer = Object.fromEntries(
-    dataDef.map((item) => [item.subject, base / item.base])
+    data.map((item) => [item.subject, base / item.base])
   );
 
-  const normalizedData = dataDef.map((v) => ({
+  const normalizedData = data.map((v) => ({
     ...v,
     base: 1,
     A: v.A/v.base,
     B: v.B/v.base,
-    valA: v.A,
-    valB: v.B
   }));
   
 
@@ -182,14 +287,14 @@ export default function RadarDef({ playerData, selectedPlayerId }) {
         >
           <PolarGrid polarRadius={[250/4, 125, 3*250/4,  250]} className="fill-stone-400 opacity-20" radialLines={false}/>
           <Radar
-            name={playerData[selectedPlayerId.toString()].player.name}
+            name={playerData[selectedPlayersId[0].toString()].player.name}
             dataKey="A"
             stroke="#57c76f"
             fill="#57c76f"
             fillOpacity={0.5}
           />
           <Radar
-            name="Joueur médian"
+            name={secondPlayer ? playerData[selectedPlayersId[1].toString()].player.name : "Joueur médian"}
             dataKey="B"
             stroke="#3c3fba"
             fill="#3c3fba"
@@ -213,7 +318,28 @@ export default function RadarDef({ playerData, selectedPlayerId }) {
               tick={({ x, y, textAnchor, value, index, ...props }) => {
                 const data = normalizedData[index]
                 return (
-                  <text
+                  type==='off' ?
+                    <text
+                      x={index === 3 ? x-30 : index === 5 ? x+50 : x}
+                      y={index === 3 || index === 4 || index === 5 ? y+30 : y-20}
+                      textAnchor={textAnchor}
+                      transform={
+                        index === 1 ? `rotate(45, ${x}, ${y-15})` :
+                        index === 2 ? `rotate(90, ${x+40}, ${y-40})` :
+                        index === 3 ? `rotate(-45, ${x}, ${y})` :
+                        index === 4 ? `rotate(0, ${x}, ${y})` :
+                        index === 5 ? `rotate(45, ${x}, ${y})` :
+                        index === 6 ? `rotate(270, ${x-30}, ${y-30})` :
+                        index === 7 ? `rotate(315, ${x-30}, ${y-70})` :
+                        `rotate(0, ${x}, ${y})`
+                      }
+                      {...props}
+                      className="font-sans font-light text-lg"
+                    >
+                      {data.description}
+                    </text>
+                  :
+                    <text
                     x={index === 3 ? x-60 : index === 5 ? x+20 : x}
                     y={index === 3 || index === 4 || index === 5 ? y+25 : y-20}
                     textAnchor={textAnchor}
@@ -229,10 +355,10 @@ export default function RadarDef({ playerData, selectedPlayerId }) {
                     }
                     {...props}
                     className="font-sans font-light text-lg"
-                  >
-                    {data.description}
-                  </text>
-                )
+                    >
+                      {data.description}
+                    </text>
+                  )
               }}
             />
             <PolarRadiusAxis

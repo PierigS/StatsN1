@@ -19,7 +19,7 @@ all_games = {}
 matchdays = []
 
 def which_selected_match_day(driver):
-    return int(driver.find_element(By.XPATH, '//*[@id="__next"]/main/div/div[3]/div/div[1]/div[1]/div[5]/div/div[3]/div/div/div[1]/div/div[1]/div/button/div/div').text.split(' ')[1])
+    return int(driver.find_element(By.XPATH, '//*[@id="__next"]/main/div/div[3]/div/div[1]/div[1]/div[3]/div[3]/div/div[1]/div/div[1]/div/button/div/div').text.split(' ')[1])
 
 def call_api(url):
     return requests.get(url).json()
@@ -51,11 +51,11 @@ def get_game_ids():
     while which_selected_match_day(driver) > 1:
         matchday_number = which_selected_match_day(driver)
         #change la journée sur la dernière jouée
-        driver.find_element(By.XPATH, '//*[@id="__next"]/main/div/div[3]/div/div[1]/div[1]/div[5]/div/div[3]/div/div/div[1]/div/div[1]/button[1]').click()
+        driver.find_element(By.XPATH, '//*[@id="__next"]/main/div/div[3]/div/div[1]/div[1]/div[3]/div[3]/div/div[1]/div/div[1]/button[1]').click()
 
         time.sleep(0.5)
 
-        all_links = driver.find_elements(By.XPATH, '//*[@id="__next"]/main/div/div[3]/div/div[1]/div[1]/div[5]/div/div[3]/div/div/div[1]/div/div[2]//a')
+        all_links = driver.find_elements(By.XPATH, '//*[@id="__next"]/main/div/div[3]/div/div[1]/div[1]/div[3]/div[3]/div/div[1]/div/div[2]//a')
         game_ids.extend([link.get_attribute('href').split('#')[1].split(':')[1] for link in all_links if 'match' in link.get_attribute('href')])
 
     driver.close()
@@ -100,7 +100,7 @@ def get_teams_stats(game, game_id):
     game['statistics']['duels'] = {}
     game['statistics']['defense'] = {}
     game['statistics']['goalkeepers'] = {}
-
+    
     for stat in teams_stats['statistics'][0]['groups'][0]['statisticsItems']:
         game['statistics']['overview'][stat['key']] = {
             'home': stat['homeValue'],
@@ -229,12 +229,14 @@ all_games = []
 for game_id in game_ids: 
     game = {}
     game = get_game(game, game_id)
-    game = get_teams_stats(game, game_id)
-    game = get_game_events(game, game_id)
-    game = get_domination(game, game_id)
-    game = get_shotmap(game, game_id)
-    game = get_average_pos(game, game_id)
-    all_games.append(game)
+    if game_id != '12572202' and game_id != '12572231':
+        print(game_id)
+        game = get_teams_stats(game, game_id)
+        game = get_game_events(game, game_id)
+        game = get_domination(game, game_id)
+        game = get_shotmap(game, game_id)
+        game = get_average_pos(game, game_id)
+        all_games.append(game)
 
 all_season = {
     'games': all_games

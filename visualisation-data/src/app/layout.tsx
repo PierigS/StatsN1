@@ -23,12 +23,12 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased bg-gray-100`}
+        className={`${geistSans.variable} ${geistMono.variable} antialiased bg-gray-100 `}
       >
         <SidebarProvider>
           <AppSidebar />
           <SidebarTrigger />
-          <div className="p-4 text-center">
+          <div className="p-4 text-center w-screen">
             {children}
           </div>
         </SidebarProvider>
