@@ -4,6 +4,7 @@ import React, { useState, useEffect } from 'react';
 import SelectCustom from '@/components/select-custom';
 import RadarStats from '@/components/radar-stats';
 import { Button } from "@/components/ui/button"
+import RankPercent from '@/components/rank-percent';
 
 interface PlayerInfo {
     player: {
@@ -288,12 +289,20 @@ function Players() {
                     </div>
 
                     {playerStats?.minutesPlayed > 300 && (
-                        <div className='flex w-full'>
-                            <div className='flex-1 w-[850px]'>
-                                <RadarStats playerData={playerData} selectedPlayersId={selectedPlayer2 ? [selectedPlayer, selectedPlayer2] :  [selectedPlayer]} type='off' />
+                        <div className=''>
+                            <div className='flex w-full h-[750px] gap-2'>
+                                <div className='flex-1 w-[850px]'>
+                                    <RadarStats playerData={playerData} selectedPlayersId={selectedPlayer2 ? [selectedPlayer, selectedPlayer2] :  [selectedPlayer]} type='off' />
+                                </div>
+                                <div className='flex-1 w-[850px]'>
+                                    <RadarStats playerData={playerData} selectedPlayersId={selectedPlayer2 ? [selectedPlayer, selectedPlayer2] :  [selectedPlayer]} type='def' />
+                                </div>
                             </div>
-                            <div className='flex-1 w-[850px]'>
-                                <RadarStats playerData={playerData} selectedPlayersId={selectedPlayer2 ? [selectedPlayer, selectedPlayer2] :  [selectedPlayer]} type='def' />
+                            <div className=''>
+                                <RankPercent playerData={playerData} selectedPlayersId={selectedPlayer2 ? [selectedPlayer, selectedPlayer2] :  [selectedPlayer]} type='off'/>
+                            </div>
+                            <div className=''>
+                                <RankPercent playerData={playerData} selectedPlayersId={selectedPlayer2 ? [selectedPlayer, selectedPlayer2] :  [selectedPlayer]} type='def'/>
                             </div>
                         </div>
                     )}
